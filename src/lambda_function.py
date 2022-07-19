@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import os
 import logging
-from pathlib import Path
 from typing import Any, NamedTuple
 
 from aws_resource import S3, Ssm, Sns, NotifyControllerTable
