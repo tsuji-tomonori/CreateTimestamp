@@ -105,14 +105,15 @@ class CreateTimestampConstruct(Construct):
             value=output_bucket.bucket_name,
         )
 
-        error_topic_arn = self.node.try_get_context("awsSnsErrorTopicArn")
+        error_topic_name = self.node.try_get_context("awsSnsErrorTopicArn")
+        error_topic_arn_arn = f"arn:aws:sns:{cdk.Stack.of(self).region}:{cdk.Stack.of(self).account}:{error_topic_name['value']}"
         error_topic = sns.Topic.from_topic_arn(
-            self, error_topic_arn["value"],
-            topic_arn=error_topic_arn["value"],
+            self, error_topic_arn_arn,
+            topic_arn=error_topic_arn_arn,
         )
         error_topic.grant_publish(role)
         fn.add_environment(
-            key=error_topic_arn["key"],
+            key=error_topic_name["key"],
             value=error_topic.topic_arn,
         )
 
