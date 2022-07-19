@@ -1,0 +1,48 @@
+{
+  "app": "python app.py",
+  "requireApproval": "never",
+  "fail": true,
+  "versionReporting": false,
+  "watch": {
+    "include": [
+      "**"
+    ],
+    "exclude": [
+      "README.md",
+      "cdk*.json",
+      "requirements*.txt",
+      "source.bat",
+      "**/__init__.py",
+      "python/__pycache__",
+      "tests"
+    ]
+  },
+  "context": {
+    "projeckName": "CreateTimestamp",
+    "description": "Create Time Stamp",
+    "awsS3InputBucketName": {
+      "key": null,
+      "value": "s3s-file-output-bucket-cdk"
+    },
+    "awsS3OutputBucketName": {
+      "key": "OUTPUT_S3_BUCKET",
+      "value": "s3s-create-timestamp-cdk"
+    },
+    "awsSnsErrorTopicArn": {
+      "key": "ERROR_TOPIC_ARN",
+      "value": "arn:aws:sns:ap-northeast-1:167545301745:sample"
+    },
+    "awsDynNotifyControllerTableName": {
+      "key": "NOTIFY_CONTROLLER_TABLE_NAME",
+      "value": "dyn_notify_controller_table_cdk"
+    },
+    "awsSsmYoutubeApiKey": {
+      "key": "YOUTUBE_API_KEY",
+      "value": "youtube_api_key"
+    },
+    "lambdaEnv": {
+      "PATTERN": "草|w|くさ|kusa",
+      "ERROR_TITLE": "[ERROR] CreateTimestamp"
+    }
+  }
+}
