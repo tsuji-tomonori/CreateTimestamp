@@ -26,6 +26,7 @@ class EnvironParams(NamedTuple):
     ERROR_TITLE: str
     NOTIFY_CONTROLLER_TABLE_NAME: str
     OUTPUT_S3_BUCKET: str
+    SOURCE_S3_BUCKET: str
 
     @classmethod
     def of(cls) -> EnvironParams:
@@ -79,8 +80,9 @@ class LambdaService(NamedTuple):
     def __service(self) -> None:
         for record in self.s3_reocrds:
             s3_param = S3Param(
-                bucket=record.bucket_name,
-                key=record.key,
+                bucket=self.env_param.SOURCE_S3_BUCKET,
+                # {channel_id}/{video_id}.png -> {channel_id}/{video_id}.csv
+                key=f"{record.key.split('.')[0]}.csv",
                 s3=self.s3
             )
             csv = CsvFile.of(

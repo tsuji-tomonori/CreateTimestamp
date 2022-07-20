@@ -77,7 +77,7 @@ class CreateTimestampConstruct(Construct):
         logs.LogGroup(
             self, build_resource_name("log"),
             log_group_name=loggroup_name,
-            retention=logs.RetentionDays.ONE_DAY,
+            retention=logs.RetentionDays.THREE_MONTHS,
         )
 
         output_bucket_name = self.node.try_get_context("awsS3OutputBucketName")
@@ -88,13 +88,20 @@ class CreateTimestampConstruct(Construct):
 
         # 環境変数及び権限設定
 
-        input_bucket_name = self.node.try_get_context("awsS3InputBucketName")
-        input_bucket = s3.Bucket.from_bucket_name(
-            self, input_bucket_name["value"],
-            bucket_name=input_bucket_name["value"],
+        source_bucket_name = self.node.try_get_context("awsS3SourceBucketName")
+        source_bucket = s3.Bucket.from_bucket_name(
+            self, source_bucket_name["value"],
+            bucket_name=source_bucket_name["value"],
         )
-        input_bucket.grant_read(role)
-        input_bucket.add_event_notification(
+        source_bucket.grant_read(role)
+
+        trigger_bucket_name = self.node.try_get_context(
+            "awsS3TriggerBucketName")
+        trigger_bucket = s3.Bucket.from_bucket_name(
+            self, trigger_bucket_name["value"],
+            bucket_name=trigger_bucket_name["value"],
+        )
+        trigger_bucket.add_event_notification(
             event=s3.EventType.OBJECT_CREATED,
             dest=s3n.LambdaDestination(fn),
         )

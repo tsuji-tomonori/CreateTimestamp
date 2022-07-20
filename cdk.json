@@ -20,8 +20,12 @@
   "context": {
     "projeckName": "CreateTimestamp",
     "description": "Create Time Stamp",
-    "awsS3InputBucketName": {
+    "awsS3TriggerBucketName": {
       "key": null,
+      "value": "s3s-create-word-cloud-bucket-cdk"
+    },
+    "awsS3SourceBucketName": {
+      "key": "SOURCE_S3_BUCKET",
       "value": "s3s-file-output-bucket-cdk"
     },
     "awsS3OutputBucketName": {
