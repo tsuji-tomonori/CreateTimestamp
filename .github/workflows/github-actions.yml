@@ -58,9 +58,6 @@ jobs:
           pip list
           find layer/python -type f | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm
 
-      - name: Boostrap
-        run: cdk bootstrap
-
       - name: CDK Diff Check
         run: |
           cdk diff --no-path-metadata --no-asset-metadata 2>&1 | tee ./comments
