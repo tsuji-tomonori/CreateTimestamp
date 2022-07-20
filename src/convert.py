@@ -78,8 +78,8 @@ class S3Param(NamedTuple):
 
 
 def read_s3_file(param: S3Param) -> list[ChatItem]:
-    file_path = param.key.split('/')[-1]
-    with open(f"{file_path}", "w", encoding="utf-8") as f:
+    file_path = f"/tmp/{param.key.split('/')[-1]}"
+    with open(file_path, "w", encoding="utf-8") as f:
         f.write(param.s3.read_file(bucket=param.bucket, key=param.key))
     return read_csv(Path.cwd() / file_path)
 
