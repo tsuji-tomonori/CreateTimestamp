@@ -123,8 +123,8 @@ class LambdaService(NamedTuple):
 
 
 def lambda_handler(event, context):
+    service = LambdaService.of(event=event)
     try:
-        service = LambdaService.of(event=event)
         service()
     except Exception as e:
         service.error(e)
