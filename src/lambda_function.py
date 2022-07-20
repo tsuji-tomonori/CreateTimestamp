@@ -1,4 +1,5 @@
 from __future__ import annotations
+import json
 
 import os
 import logging
@@ -79,6 +80,7 @@ class LambdaService(NamedTuple):
 
     def __service(self) -> None:
         for record in self.s3_reocrds:
+            logger.info(f"[start]\n{json.dumps(record, indent=2)}")
             s3_param = S3Param(
                 bucket=self.env_param.SOURCE_S3_BUCKET,
                 # {channel_id}/{video_id}.png -> {channel_id}/{video_id}.csv
@@ -101,7 +103,8 @@ class LambdaService(NamedTuple):
             )
             kusa_group = KusaGroup.of(kusa_distance=kusa_distance)
             log_report = LogReport.of(item=kusa_group)
-            output_md = log_report.write_log(table)
+            output_md = log_report.create_md(table)
+            logger.info(f"[s3 upload]\n{output_md}")
             self.s3.upload(
                 data=output_md.encode("utf-8"),
                 bucket_name=self.env_param.OUTPUT_S3_BUCKET,
