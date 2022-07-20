@@ -251,7 +251,7 @@ class LogReport(NamedTuple):
     records: list[LogRecord]
 
     @classmethod
-    def of(cls, item: KusaGroup) -> None:
+    def of(cls, item: KusaGroup) -> LogReport:
         idx = 1
         log_records = []
         for group in item.groups:
@@ -259,7 +259,7 @@ class LogReport(NamedTuple):
             idx += 1
         return LogReport(records=log_records)
 
-    def write_log(self, table: NotifyControllerTable, n_target: int = 5) -> str:
+    def create_md(self, table: NotifyControllerTable, n_target: int = 5) -> str:
         target = sorted(self.records, key=lambda x: x.n_record,
                         reverse=True)[:n_target]
         result = f"{table.title}\n"
