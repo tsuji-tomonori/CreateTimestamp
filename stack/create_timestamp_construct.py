@@ -94,6 +94,10 @@ class CreateTimestampConstruct(Construct):
             bucket_name=source_bucket_name["value"],
         )
         source_bucket.grant_read(role)
+        fn.add_environment(
+            key=source_bucket_name["key"],
+            value=source_bucket.bucket_name,
+        )
 
         trigger_bucket_name = self.node.try_get_context(
             "awsS3TriggerBucketName")
